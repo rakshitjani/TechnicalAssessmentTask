@@ -86,7 +86,4 @@ dependencies {
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:2.41"
     kaptAndroidTest "androidx.hilt:hilt-compiler:2.41"
 
-
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-
 }

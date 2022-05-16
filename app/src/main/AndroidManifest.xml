@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TechnicalAssessmentTask">
         <activity
-            android:name=".ui.PostListActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
