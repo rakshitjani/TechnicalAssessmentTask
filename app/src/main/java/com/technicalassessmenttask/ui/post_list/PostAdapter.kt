@@ -15,20 +15,13 @@ import kotlin.random.Random
 
 class PostAdapter(private val listener: PostItemListener) : RecyclerView.Adapter<PostViewHolder>() {
 
-    var colors = intArrayOf(
-        Color.parseColor("#8DC1EC"),
-        Color.parseColor("#A5FFF5"),
-        Color.parseColor("#8FA7FF"),
-        Color.parseColor("#BAC9D5"),
-        Color.parseColor("#B9A4F4"),
-    )
 
     interface PostItemListener {
-        fun onClickedBlog(blogTitle: CharSequence)
+        fun onClickedPost(blogTitle: CharSequence)
     }
 
     private val items = ArrayList<PostData>()
-    private lateinit var blog: PostData
+    private lateinit var post: PostData
 
     fun setItems(items: ArrayList<PostData>) {
         this.items.clear()
@@ -45,27 +38,21 @@ class PostAdapter(private val listener: PostItemListener) : RecyclerView.Adapter
 
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        holder.postItemCard.setCardBackgroundColor(colors[Math.round(Random.nextDouble(0.0,4.0).toFloat())])
-        blog = items[position]
+        post = items[position]
         val post = items[position]
         holder.textTitle.text = post.title
+        holder.itemLayout.setOnClickListener {
+            listener.onClickedPost(post.id.toString())
+        }
     }
 }
 
 class PostViewHolder(itemView: View, private val listener: PostAdapter.PostItemListener) :
-    RecyclerView.ViewHolder(itemView),
-    View.OnClickListener {
+    RecyclerView.ViewHolder(itemView) {
 
     val itemLayout: RelativeLayout = itemView.postItemLayout
     val postItemCard: CardView = itemView.postItemCard
     val textTitle: TextView = itemView.postTitle
 
-    init {
-        itemLayout.setOnClickListener(this)
-    }
-
-    override fun onClick(v: View?) {
-        listener.onClickedBlog(textTitle.text)
-    }
 }
 

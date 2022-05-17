@@ -1,7 +1,7 @@
 package com.technicalassessmenttask.repository.post_list
 
 import android.util.Log
-import com.technicalassessmenttask.database.CacheMapper
+import com.technicalassessmenttask.database.post_list.CacheMapper
 import com.technicalassessmenttask.database.post_list.PostsDao
 import com.technicalassessmenttask.model.post_list.PostData
 import com.technicalassessmenttask.network.post_list.PostListAPI

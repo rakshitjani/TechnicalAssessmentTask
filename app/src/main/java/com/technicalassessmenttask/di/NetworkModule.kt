@@ -2,6 +2,7 @@ package com.technicalassessmenttask.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.technicalassessmenttask.network.comment_list.CommentListAPI
 import com.technicalassessmenttask.network.post_list.PostListAPI
 import dagger.Module
 import dagger.Provides
@@ -37,5 +38,13 @@ object NetworkModule {
         return retrofit
             .build()
             .create(PostListAPI::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun getCommentsList(retrofit: Retrofit.Builder): CommentListAPI {
+        return retrofit
+            .build()
+            .create(CommentListAPI::class.java)
     }
 }

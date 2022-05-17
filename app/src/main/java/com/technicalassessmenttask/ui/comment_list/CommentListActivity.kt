@@ -1,4 +1,4 @@
-package com.technicalassessmenttask.ui.post_list
+package com.technicalassessmenttask.ui.comment_list
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,33 +9,39 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.technicalassessmenttask.R
-import com.technicalassessmenttask.model.post_list.PostData
-import com.technicalassessmenttask.ui.comment_list.CommentListActivity
+import com.technicalassessmenttask.model.comment_list.CommentsData
 import com.technicalassessmenttask.util.ResponseState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_post_list.*
 
 @AndroidEntryPoint
-class PostListActivity : AppCompatActivity(), PostAdapter.PostItemListener {
-    private val viewModel: PostListViewModel by viewModels()
-    private lateinit var postListAdapter: PostAdapter
+class CommentListActivity : AppCompatActivity(), CommentAdapter.CommentItemListener {
+    private val viewModel: CommentListViewModel by viewModels()
+    private lateinit var commentListAdapter: CommentAdapter
+    private var postId = "1"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_list)
+        if (intent.hasExtra("postID")){
+            var postId:String? = intent.extras?.getString("postID")
+            if (postId!=null){
+                this.postId = postId
+            }
+        }
         setupRecyclerView()
         subscribeObservers()
-        viewModel.setStateEvent(MainStateEvent.GetPostsEvents)
+        viewModel.setStateEvent(MainStateEvent.GetCommentsEvents,postId.toString())
 
         swipeRefreshLayout.setOnRefreshListener {
-            viewModel.setStateEvent(MainStateEvent.GetPostsEvents)
+            viewModel.setStateEvent(MainStateEvent.GetCommentsEvents,postId.toString())
         }
     }
 
     private fun subscribeObservers() {
         viewModel.dataState.observe(this, Observer { dataState ->
             when (dataState) {
-                is ResponseState.Success<List<PostData>> -> {
+                is ResponseState.Success<List<CommentsData>> -> {
                     Log.e("","")
                     displayLoading(false)
                     populateRecyclerView(dataState.data)
@@ -53,8 +59,8 @@ class PostListActivity : AppCompatActivity(), PostAdapter.PostItemListener {
         })
     }
 
-    private fun populateRecyclerView(blogs: List<PostData>) {
-        if (blogs.isNotEmpty()) postListAdapter.setItems(ArrayList(blogs))
+    private fun populateRecyclerView(comments: List<CommentsData>) {
+        if (comments.isNotEmpty()) commentListAdapter.setItems(ArrayList(comments))
     }
 
     private fun displayLoading(isLoading: Boolean) {
@@ -63,14 +69,12 @@ class PostListActivity : AppCompatActivity(), PostAdapter.PostItemListener {
 
 
     private fun setupRecyclerView() {
-        postListAdapter = PostAdapter(this)
+        commentListAdapter = CommentAdapter(this)
         posts_recyclerview.layoutManager = LinearLayoutManager(this)
-        posts_recyclerview.adapter = postListAdapter
+        posts_recyclerview.adapter = commentListAdapter
     }
 
-    override fun onClickedPost(postID: CharSequence) {
-        val intent = Intent(this, CommentListActivity::class.java)
-        intent.putExtra("postID",postID)
-        startActivity(intent)
+    override fun onClickedComment(comment: CharSequence) {
+        Toast.makeText(this, comment, Toast.LENGTH_SHORT).show()
     }
 }

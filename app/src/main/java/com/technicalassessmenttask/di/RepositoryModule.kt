@@ -1,9 +1,14 @@
 package com.technicalassessmenttask.di
 
-import com.technicalassessmenttask.database.CacheMapper
+import com.technicalassessmenttask.database.comment_list.CommentsCacheMapper
+import com.technicalassessmenttask.database.comment_list.CommentsDao
+import com.technicalassessmenttask.database.post_list.CacheMapper
 import com.technicalassessmenttask.database.post_list.PostsDao
+import com.technicalassessmenttask.network.comment_list.CommentListAPI
+import com.technicalassessmenttask.network.comment_list.CommentListDataMapper
 import com.technicalassessmenttask.network.post_list.PostListAPI
 import com.technicalassessmenttask.network.post_list.PostListDataMapper
+import com.technicalassessmenttask.repository.comment_list.CommentRepository
 import com.technicalassessmenttask.repository.post_list.PostRepository
 import dagger.Module
 import dagger.Provides
@@ -24,5 +29,16 @@ object RepositoryModule {
         postListDataMapper: PostListDataMapper
     ): PostRepository {
         return PostRepository(postsDao, postListAPI, cacheMapper, postListDataMapper)
+    }
+
+    @Singleton
+    @Provides
+    fun provideCommentRepository(
+        commentsDao: CommentsDao,
+        commentListAPI: CommentListAPI,
+        commentsCacheMapper: CommentsCacheMapper,
+        commentListDataMapper: CommentListDataMapper
+    ): CommentRepository {
+        return CommentRepository(commentsDao, commentListAPI, commentsCacheMapper, commentListDataMapper)
     }
 }

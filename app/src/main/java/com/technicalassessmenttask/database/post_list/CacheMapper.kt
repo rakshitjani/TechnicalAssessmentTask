@@ -1,6 +1,5 @@
-package com.technicalassessmenttask.database
+package com.technicalassessmenttask.database.post_list
 
-import com.technicalassessmenttask.database.post_list.PostListCacheEntity
 import com.technicalassessmenttask.model.post_list.PostData
 import com.technicalassessmenttask.util.EntityMapper
 import javax.inject.Inject
