@@ -22,19 +22,26 @@ constructor(
     private val commentListAPI: CommentListAPI,
     private val commentsCacheMapper: CommentsCacheMapper,
     private val commentListDataMapper: CommentListDataMapper
-    ){
+) {
     suspend fun getCommentList(postID: String): Flow<ResponseState<List<CommentsData>>> = flow {
         emit(ResponseState.Loading)
-        delay(1000)
         try {
             val networkPosts = commentListAPI.get(postID)
             val posts = commentListDataMapper.mapFromEntityList(networkPosts)
-            for ((index,post) in posts.withIndex()) {
+            for ((index, post) in posts.withIndex()) {
                 commentsDao.insert(commentsCacheMapper.mapToEntity(post))
             }
             val cachedBlogs = commentsDao.get()
-            Log.e("cacheMapper","Index: ${cachedBlogs.size}");
-//            cacheMapper.mapFromEntityList(cachedBlogs)
+            emit(ResponseState.Success(commentsCacheMapper.mapFromEntityList(cachedBlogs)))
+        } catch (e: Exception) {
+            emit(ResponseState.Error(e))
+        }
+    }
+
+    suspend fun getCommentListFromDB(postID: Int?): Flow<ResponseState<List<CommentsData>>> = flow {
+        emit(ResponseState.Loading)
+        try {
+            val cachedBlogs = commentsDao.getCommentsWithPostID(postID)
             emit(ResponseState.Success(commentsCacheMapper.mapFromEntityList(cachedBlogs)))
         } catch (e: Exception) {
             emit(ResponseState.Error(e))

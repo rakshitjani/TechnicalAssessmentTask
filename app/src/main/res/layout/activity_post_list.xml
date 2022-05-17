@@ -11,6 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <RelativeLayout
             android:id="@+id/postsLbl"
             android:layout_width="match_parent"
@@ -29,14 +30,23 @@
                 android:textStyle="bold"
                 android:visibility="gone" />
 
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchViewPosts"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                app:queryHint="Search Posts"
-                android:background="@drawable/comment_searchview"
-                app:iconifiedByDefault="false"
-                android:layout_margin="@dimen/_5sdp"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                app:cardCornerRadius="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_5sdp">
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/searchViewPosts"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:iconifiedByDefault="false"
+                    app:queryBackground="@android:color/transparent"
+                    app:queryHint="Search Posts" />
+            </androidx.cardview.widget.CardView>
 
         </RelativeLayout>
 
@@ -60,7 +70,7 @@
             android:gravity="center"
             android:text="@string/no_posts"
             android:textSize="@dimen/_18ssp"
-            app:layout_constraintTop_toTopOf="@+id/postsLbl"/>
+            app:layout_constraintTop_toTopOf="@+id/postsLbl" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

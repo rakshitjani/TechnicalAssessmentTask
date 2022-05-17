@@ -19,13 +19,14 @@ class PostAdapter(private val listener: PostItemListener) : RecyclerView.Adapter
         fun onClickedPost(post: PostData)
     }
 
-    private val items:MutableList<PostData> = ArrayList<PostData>()
-    private val fullList:MutableList<PostData> = ArrayList<PostData>()
+    private val items: MutableList<PostData> = ArrayList<PostData>()
+    private val fullList: MutableList<PostData> = ArrayList<PostData>()
     private lateinit var post: PostData
 
     fun setItems(items: ArrayList<PostData>) {
         this.fullList.clear()
         this.fullList.addAll(items)
+        this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()
     }

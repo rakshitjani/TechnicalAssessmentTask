@@ -39,6 +39,11 @@ object RepositoryModule {
         commentsCacheMapper: CommentsCacheMapper,
         commentListDataMapper: CommentListDataMapper
     ): CommentRepository {
-        return CommentRepository(commentsDao, commentListAPI, commentsCacheMapper, commentListDataMapper)
+        return CommentRepository(
+            commentsDao,
+            commentListAPI,
+            commentsCacheMapper,
+            commentListDataMapper
+        )
     }
 }

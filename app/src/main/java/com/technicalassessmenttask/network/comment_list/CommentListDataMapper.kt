@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class CommentListDataMapper
 @Inject
-constructor()  : EntityMapper<CommentDataResponse, CommentsData> {
+constructor() : EntityMapper<CommentDataResponse, CommentsData> {
     override fun mapFromEntity(entity: CommentDataResponse): CommentsData {
         return CommentsData(
             postId = entity.postId,

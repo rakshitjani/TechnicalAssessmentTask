@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class PostListDataMapper
 @Inject
-constructor()  : EntityMapper<PostDataResponse, PostData> {
+constructor() : EntityMapper<PostDataResponse, PostData> {
     override fun mapFromEntity(entity: PostDataResponse): PostData {
         return PostData(
             userId = entity.userId,

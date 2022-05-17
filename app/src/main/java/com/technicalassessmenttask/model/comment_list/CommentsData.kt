@@ -1,6 +1,6 @@
 package com.technicalassessmenttask.model.comment_list
 
-data class CommentsData (
+data class CommentsData(
     var postId: Int,
     var id: Int,
     var name: String = "",

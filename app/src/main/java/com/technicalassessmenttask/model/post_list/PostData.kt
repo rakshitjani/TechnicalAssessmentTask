@@ -5,12 +5,12 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import java.io.Serializable
 
-data class PostData (
+data class PostData(
     var userId: Int,
     var id: Int,
     var title: String = "",
     var body: String = ""
-):Parcelable{
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readInt(),

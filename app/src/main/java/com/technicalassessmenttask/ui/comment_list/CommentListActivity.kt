@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
@@ -14,6 +15,7 @@ import com.technicalassessmenttask.R
 import com.technicalassessmenttask.model.comment_list.CommentsData
 import com.technicalassessmenttask.model.post_list.PostData
 import com.technicalassessmenttask.util.ResponseState
+import com.technicalassessmenttask.util.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_comment_list.*
 import kotlinx.android.synthetic.main.activity_post_list.*
@@ -22,28 +24,28 @@ import kotlinx.android.synthetic.main.activity_post_list.*
 class CommentListActivity : AppCompatActivity(), CommentAdapter.CommentItemListener {
     private val viewModel: CommentListViewModel by viewModels()
     private lateinit var commentListAdapter: CommentAdapter
-    private var post:PostData? = null
+    private var post: PostData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comment_list)
         title = getString(R.string.post_comments)
 
-        if (supportActionBar != null){
+        if (supportActionBar != null) {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
         }
 
-        if (intent.hasExtra("post")){
-            var post:PostData? = intent.getParcelableExtra("post")
-            if (post!=null){
+        if (intent.hasExtra("post")) {
+            var post: PostData? = intent.getParcelableExtra("post")
+            if (post != null) {
                 this.post = post
 
                 commentPostTitle.text = post.title
                 commentPostDetails.text = post.body
             }
         }
-        searchViewComments.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        searchViewComments.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
@@ -57,10 +59,18 @@ class CommentListActivity : AppCompatActivity(), CommentAdapter.CommentItemListe
 
         setupRecyclerView()
         subscribeObservers()
-        viewModel.setStateEvent(MainStateEvent.GetCommentsEvents,post?.id.toString())
+        if (Utils.isNetworkAvailable(this)) {
+            viewModel.setStateEvent(MainStateEvent.GetCommentsEvents, post?.id.toString())
+        } else {
+            viewModel.setStateEventDB(MainStateEvent.GetCommentsEvents, post?.id)
+        }
 
         commentsSwipeRefresh.setOnRefreshListener {
-            viewModel.setStateEvent(MainStateEvent.GetCommentsEvents,post?.id.toString())
+            if (Utils.isNetworkAvailable(this)) {
+                viewModel.setStateEvent(MainStateEvent.GetCommentsEvents, post?.id.toString())
+            } else {
+                viewModel.setStateEventDB(MainStateEvent.GetCommentsEvents, post?.id)
+            }
         }
     }
 
@@ -75,18 +85,19 @@ class CommentListActivity : AppCompatActivity(), CommentAdapter.CommentItemListe
         viewModel.dataState.observe(this, Observer { dataState ->
             when (dataState) {
                 is ResponseState.Success<List<CommentsData>> -> {
-                    Log.e("","")
                     displayLoading(false)
-                    populateRecyclerView(dataState.data)
+                    if (dataState.data.isNotEmpty()) {
+                        noComments.visibility = View.GONE
+                        populateRecyclerView(dataState.data)
+                    } else {
+                        noComments.visibility = View.VISIBLE
+                    }
                 }
                 is ResponseState.Loading -> {
-                    Log.e("","")
                     displayLoading(true)
                 }
                 is ResponseState.Error -> {
-                    Log.e("","")
                     displayLoading(false)
-//                    displayError(dataState.exception.message)
                 }
             }
         })

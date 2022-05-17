@@ -12,4 +12,7 @@ interface CommentsDao {
 
     @Query("SELECT * FROM commentsDao")
     suspend fun get(): List<CommentsListCacheEntity>
+
+    @Query("SELECT * FROM commentsDao WHERE postId=:post_ID")
+    suspend fun getCommentsWithPostID(post_ID: Int?): List<CommentsListCacheEntity>
 }

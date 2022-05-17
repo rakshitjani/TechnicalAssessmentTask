@@ -16,7 +16,7 @@ class PostListViewModel
 constructor(
     val postRepository: PostRepository,
     private val savedStateHandle: SavedStateHandle
-): ViewModel() {
+) : ViewModel() {
 
     private val _dataState: MutableLiveData<ResponseState<List<PostData>>> = MutableLiveData()
 
@@ -35,7 +35,6 @@ constructor(
                 }
 
                 is MainStateEvent.None -> {
-                    // No action
                 }
             }
         }
@@ -53,7 +52,6 @@ constructor(
                 }
 
                 is MainStateEvent.None -> {
-                    // No action
                 }
             }
         }

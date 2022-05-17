@@ -22,4 +22,4 @@ data class PostListCacheEntity(
     var body: String,
 
 
-)
+    )

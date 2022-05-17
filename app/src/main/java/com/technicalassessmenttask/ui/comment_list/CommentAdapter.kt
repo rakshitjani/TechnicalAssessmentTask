@@ -12,25 +12,28 @@ import com.technicalassessmenttask.model.post_list.PostData
 import kotlinx.android.synthetic.main.item_comments_list.view.*
 import kotlinx.android.synthetic.main.item_posts_list.view.*
 
-class CommentAdapter(private val listener: CommentItemListener) : RecyclerView.Adapter<CommentViewHolder>() {
+class CommentAdapter(private val listener: CommentItemListener) :
+    RecyclerView.Adapter<CommentViewHolder>() {
 
     interface CommentItemListener {
         fun onClickedComment(blogTitle: CharSequence)
     }
 
-    private val items:MutableList<CommentsData> = ArrayList<CommentsData>()
-    private val fullList:MutableList<CommentsData> = ArrayList<CommentsData>()
+    private val items: MutableList<CommentsData> = ArrayList<CommentsData>()
+    private val fullList: MutableList<CommentsData> = ArrayList<CommentsData>()
     private lateinit var comments: CommentsData
 
     fun setItems(items: ArrayList<CommentsData>) {
         this.fullList.clear()
         this.fullList.addAll(items)
+        this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_comments_list, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_comments_list, parent, false)
         return CommentViewHolder(view, listener)
     }
 
@@ -80,11 +83,9 @@ class CommentAdapter(private val listener: CommentItemListener) : RecyclerView.A
 class CommentViewHolder(itemView: View, private val listener: CommentAdapter.CommentItemListener) :
     RecyclerView.ViewHolder(itemView) {
 
-    val commentName:TextView = itemView.commentName
-    val commentEmail:TextView = itemView.commentEmail
-    val comment:TextView = itemView.comment
-
-
+    val commentName: TextView = itemView.commentName
+    val commentEmail: TextView = itemView.commentEmail
+    val comment: TextView = itemView.comment
 
 
 }

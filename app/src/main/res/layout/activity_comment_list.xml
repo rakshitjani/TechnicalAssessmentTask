@@ -26,14 +26,16 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/commentPostDetails"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_5sdp"
         android:layout_marginTop="@dimen/_8sdp"
         android:layout_marginEnd="@dimen/_5sdp"
         android:layout_marginBottom="@dimen/_8sdp"
         android:textColor="@android:color/black"
         android:textSize="@dimen/_14ssp"
-        app:layout_constraintBottom_toTopOf="@+id/horizontalDivider"
+        android:maxLines="5"
+        android:minLines="2"
+        android:paddingBottom="@dimen/_8sdp"
         app:layout_constraintTop_toBottomOf="@+id/commentPostTitle" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,7 +43,7 @@
         android:layout_height="0dp"
         android:background="@color/grey_e7ecf1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalDivider">
+        app:layout_constraintTop_toBottomOf="@+id/commentPostDetails">
 
         <RelativeLayout
             android:id="@+id/commentsLbl"
@@ -61,17 +63,23 @@
                 android:textStyle="bold"
                 android:visibility="gone" />
 
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchViewComments"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
-                android:background="@drawable/comment_searchview"
-                app:iconifiedByDefault="false"
-                app:queryHint="Comments" />
+                app:cardCornerRadius="@dimen/_15sdp">
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/searchViewComments"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:queryBackground="@android:color/transparent"
+                    app:iconifiedByDefault="false"
+                    app:queryHint="Comments" />
+            </androidx.cardview.widget.CardView>
 
         </RelativeLayout>
 
@@ -89,6 +97,17 @@
                 android:layout_margin="@dimen/_5sdp"
                 android:overScrollMode="never" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/noComments"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/_18ssp"
+            android:background="@android:color/white"
+            android:text="@string/no_comments_available"
+            android:gravity="center" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

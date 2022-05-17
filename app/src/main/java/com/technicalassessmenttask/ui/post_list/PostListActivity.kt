@@ -28,15 +28,6 @@ class PostListActivity : AppCompatActivity(), PostAdapter.PostItemListener {
         setContentView(R.layout.activity_post_list)
         title = getString(R.string.posts)
 
-        searchViewPosts.setOnSearchClickListener {
-//            postsLabel.visibility = View.GONE
-        }
-        searchViewPosts.setOnCloseListener {
-//            searchViewPosts.clearFocus()
-//            postsLabel.visibility = View.VISIBLE
-            false
-        }
-
         searchViewPosts.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 searchViewPosts.clearFocus();
@@ -58,7 +49,11 @@ class PostListActivity : AppCompatActivity(), PostAdapter.PostItemListener {
         }
 
         swipeRefreshLayout.setOnRefreshListener {
-            viewModel.setStateEvent(MainStateEvent.GetPostsEvents)
+            if (Utils.isNetworkAvailable(this)) {
+                viewModel.setStateEvent(MainStateEvent.GetPostsEvents)
+            } else {
+                viewModel.setStateEventDB(MainStateEvent.GetPostsEvents)
+            }
         }
     }
 
@@ -66,7 +61,6 @@ class PostListActivity : AppCompatActivity(), PostAdapter.PostItemListener {
         viewModel.dataState.observe(this, Observer { dataState ->
             when (dataState) {
                 is ResponseState.Success<List<PostData>> -> {
-                    Log.e("", "")
                     displayLoading(false)
                     if (dataState.data.isNotEmpty()) {
                         noPosts.visibility = View.GONE
@@ -76,13 +70,10 @@ class PostListActivity : AppCompatActivity(), PostAdapter.PostItemListener {
                     }
                 }
                 is ResponseState.Loading -> {
-                    Log.e("", "")
                     displayLoading(true)
                 }
                 is ResponseState.Error -> {
-                    Log.e("", "")
                     displayLoading(false)
-//                    displayError(dataState.exception.message)
                 }
             }
         })
@@ -104,12 +95,8 @@ class PostListActivity : AppCompatActivity(), PostAdapter.PostItemListener {
     }
 
     override fun onClickedPost(post: PostData) {
-        if (Utils.isNetworkAvailable(this)) {
-            val intent = Intent(this, CommentListActivity::class.java)
-            intent.putExtra("post", post)
-            startActivity(intent)
-        } else {
-            Toast.makeText(this, "Internet connection not available.", Toast.LENGTH_LONG).show()
-        }
+        val intent = Intent(this, CommentListActivity::class.java)
+        intent.putExtra("post", post)
+        startActivity(intent)
     }
 }

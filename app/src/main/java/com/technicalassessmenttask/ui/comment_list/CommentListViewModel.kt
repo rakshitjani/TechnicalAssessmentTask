@@ -16,14 +16,14 @@ class CommentListViewModel
 constructor(
     private val commentRepository: CommentRepository,
     private val savedStateHandle: SavedStateHandle
-): ViewModel() {
+) : ViewModel() {
 
     private val _dataState: MutableLiveData<ResponseState<List<CommentsData>>> = MutableLiveData()
 
     val dataState: LiveData<ResponseState<List<CommentsData>>>
         get() = _dataState
 
-    fun setStateEvent(mainStateEvent: MainStateEvent,postID: String) {
+    fun setStateEvent(mainStateEvent: MainStateEvent, postID: String) {
         viewModelScope.launch {
             when (mainStateEvent) {
                 is MainStateEvent.GetCommentsEvents -> {
@@ -35,7 +35,23 @@ constructor(
                 }
 
                 is MainStateEvent.None -> {
-                    // No action
+                }
+            }
+        }
+    }
+
+    fun setStateEventDB(mainStateEvent: MainStateEvent, postID: Int?) {
+        viewModelScope.launch {
+            when (mainStateEvent) {
+                is MainStateEvent.GetCommentsEvents -> {
+                    commentRepository.getCommentListFromDB(postID)
+                        .onEach { dataState ->
+                            _dataState.value = dataState
+                        }
+                        .launchIn(viewModelScope)
+                }
+
+                is MainStateEvent.None -> {
                 }
             }
         }
