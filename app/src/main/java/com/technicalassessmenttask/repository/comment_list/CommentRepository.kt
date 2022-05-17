@@ -32,7 +32,8 @@ constructor(
                 commentsDao.insert(commentsCacheMapper.mapToEntity(post))
             }
             val cachedBlogs = commentsDao.get()
-            emit(ResponseState.Success(commentsCacheMapper.mapFromEntityList(cachedBlogs)))
+            commentsCacheMapper.mapFromEntityList(cachedBlogs)
+            emit(ResponseState.Success(posts))
         } catch (e: Exception) {
             emit(ResponseState.Error(e))
         }
