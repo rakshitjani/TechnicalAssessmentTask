@@ -14,7 +14,7 @@ import javax.inject.Inject
 class PostListViewModel
 @Inject
 constructor(
-    private val postRepository: PostRepository,
+    val postRepository: PostRepository,
     private val savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
@@ -28,6 +28,24 @@ constructor(
             when (mainStateEvent) {
                 is MainStateEvent.GetPostsEvents -> {
                     postRepository.getPostList()
+                        .onEach { dataState ->
+                            _dataState.value = dataState
+                        }
+                        .launchIn(viewModelScope)
+                }
+
+                is MainStateEvent.None -> {
+                    // No action
+                }
+            }
+        }
+    }
+
+    fun setStateEventDB(mainStateEvent: MainStateEvent) {
+        viewModelScope.launch {
+            when (mainStateEvent) {
+                is MainStateEvent.GetPostsEvents -> {
+                    postRepository.getPostListFromDB()
                         .onEach { dataState ->
                             _dataState.value = dataState
                         }

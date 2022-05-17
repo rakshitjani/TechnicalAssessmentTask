@@ -35,4 +35,15 @@ constructor(
             emit(ResponseState.Error(e))
         }
     }
+
+    suspend fun getPostListFromDB(): Flow<ResponseState<List<PostData>>> = flow {
+        emit(ResponseState.Loading)
+        delay(1000)
+        try {
+            val cachedBlogs = postsDao.get()
+            emit(ResponseState.Success(cacheMapper.mapFromEntityList(cachedBlogs)))
+        } catch (e: Exception) {
+            emit(ResponseState.Error(e))
+        }
+    }
 }

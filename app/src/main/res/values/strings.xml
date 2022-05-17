@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">TechnicalAssessmentTask</string>
     <string name="email">Email:</string>
+    <string name="comment">Comment</string>
+    <string name="comments">Comments</string>
+    <string name="posts">Posts</string>
+    <string name="no_posts">No Posts Available</string>
+    <string name="post_comments">Post Comments</string>
 </resources>

@@ -3,14 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Rakshit/Projects/Demos/TechnicalAssessmentTask/TechnicalAssessmentTask/app/src/main/res/layout/activity_main.xml" value="0.18802083333333333" />
-        <entry key="..\:/Rakshit/Projects/Demos/TechnicalAssessmentTask/TechnicalAssessmentTask/app/src/main/res/layout/activity_post_list.xml" value="0.18802083333333333" />
-        <entry key="..\:/Rakshit/Projects/Demos/TechnicalAssessmentTask/TechnicalAssessmentTask/app/src/main/res/layout/item_posts_list.xml" value="0.1" />
-        <entry key="..\:/Rakshit/Projects/Demos/TechnicalAssessmentTask/TechnicalAssessmentTask/app/src/main/res/layout/posts_list.xml" value="0.3402061855670103" />
+        <entry key="..\:/Android/Projects/Demo/TechnicalAssessmentTask/TechnicalAssessmentTask/app/src/main/res/drawable/comment_searchview.xml" value="0.2145" />
+        <entry key="..\:/Android/Projects/Demo/TechnicalAssessmentTask/TechnicalAssessmentTask/app/src/main/res/layout/activity_comment_list.xml" value="0.23802083333333332" />
+        <entry key="..\:/Android/Projects/Demo/TechnicalAssessmentTask/TechnicalAssessmentTask/app/src/main/res/layout/activity_post_list.xml" value="0.2583826429980276" />
+        <entry key="..\:/Android/Projects/Demo/TechnicalAssessmentTask/TechnicalAssessmentTask/app/src/main/res/layout/item_comments_list.xml" value="0.4" />
+        <entry key="..\:/Android/Projects/Demo/TechnicalAssessmentTask/TechnicalAssessmentTask/app/src/main/res/layout/item_posts_list.xml" value="0.23802083333333332" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -4,14 +4,17 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.technicalassessmenttask.R
 import com.technicalassessmenttask.model.post_list.PostData
 import com.technicalassessmenttask.ui.comment_list.CommentListActivity
 import com.technicalassessmenttask.util.ResponseState
+import com.technicalassessmenttask.util.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_post_list.*
 
@@ -23,9 +26,36 @@ class PostListActivity : AppCompatActivity(), PostAdapter.PostItemListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_list)
+        title = getString(R.string.posts)
+
+        searchViewPosts.setOnSearchClickListener {
+//            postsLabel.visibility = View.GONE
+        }
+        searchViewPosts.setOnCloseListener {
+//            searchViewPosts.clearFocus()
+//            postsLabel.visibility = View.VISIBLE
+            false
+        }
+
+        searchViewPosts.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                searchViewPosts.clearFocus();
+                return false;
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                postListAdapter.getFilter()?.filter(newText);
+                return false
+            }
+
+        })
         setupRecyclerView()
         subscribeObservers()
-        viewModel.setStateEvent(MainStateEvent.GetPostsEvents)
+        if (Utils.isNetworkAvailable(this)) {
+            viewModel.setStateEvent(MainStateEvent.GetPostsEvents)
+        } else {
+            viewModel.setStateEventDB(MainStateEvent.GetPostsEvents)
+        }
 
         swipeRefreshLayout.setOnRefreshListener {
             viewModel.setStateEvent(MainStateEvent.GetPostsEvents)
@@ -36,16 +66,21 @@ class PostListActivity : AppCompatActivity(), PostAdapter.PostItemListener {
         viewModel.dataState.observe(this, Observer { dataState ->
             when (dataState) {
                 is ResponseState.Success<List<PostData>> -> {
-                    Log.e("","")
+                    Log.e("", "")
                     displayLoading(false)
-                    populateRecyclerView(dataState.data)
+                    if (dataState.data.isNotEmpty()) {
+                        noPosts.visibility = View.GONE
+                        populateRecyclerView(dataState.data)
+                    } else {
+                        noPosts.visibility = View.VISIBLE
+                    }
                 }
                 is ResponseState.Loading -> {
-                    Log.e("","")
+                    Log.e("", "")
                     displayLoading(true)
                 }
                 is ResponseState.Error -> {
-                    Log.e("","")
+                    Log.e("", "")
                     displayLoading(false)
 //                    displayError(dataState.exception.message)
                 }
@@ -68,9 +103,13 @@ class PostListActivity : AppCompatActivity(), PostAdapter.PostItemListener {
         posts_recyclerview.adapter = postListAdapter
     }
 
-    override fun onClickedPost(postID: CharSequence) {
-        val intent = Intent(this, CommentListActivity::class.java)
-        intent.putExtra("postID",postID)
-        startActivity(intent)
+    override fun onClickedPost(post: PostData) {
+        if (Utils.isNetworkAvailable(this)) {
+            val intent = Intent(this, CommentListActivity::class.java)
+            intent.putExtra("post", post)
+            startActivity(intent)
+        } else {
+            Toast.makeText(this, "Internet connection not available.", Toast.LENGTH_LONG).show()
+        }
     }
 }

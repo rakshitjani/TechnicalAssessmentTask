@@ -5,30 +5,62 @@
     android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey_e7ecf1"
     tools:context=".ui.post_list.PostListActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/postsLbl"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/postsLabel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_5sdp"
+                android:text="@string/posts"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchViewPosts"
+                android:layout_width="match_parent"
+                app:queryHint="Search Posts"
+                android:background="@drawable/comment_searchview"
+                app:iconifiedByDefault="false"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_height="match_parent"/>
+
+        </RelativeLayout>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/posts_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:overScrollMode="never"
+            app:layout_constraintTop_toBottomOf="@+id/postsLbl"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/noPosts"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@android:color/white"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:gravity="center"
+            android:text="@string/no_posts"
+            android:textSize="@dimen/_18ssp"
+            app:layout_constraintTop_toTopOf="@+id/postsLbl"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

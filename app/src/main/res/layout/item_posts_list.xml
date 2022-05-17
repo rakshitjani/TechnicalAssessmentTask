@@ -3,6 +3,7 @@
     android:id="@+id/postItemLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/grey_e7ecf1"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
@@ -11,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_5sdp"
         app:cardCornerRadius="@dimen/_8sdp"
-        app:cardBackgroundColor="@color/blue_B5C7D8"
+        app:cardBackgroundColor="@color/white"
         app:cardElevation="@dimen/_3sdp"
         app:contentPadding="@dimen/_5sdp">
 
@@ -29,32 +30,21 @@
                 android:textStyle="bold"
                 android:text="[Title]"
                 android:maxLines="3"
+                android:textColor="@android:color/black"
                 android:ellipsize="end"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/postEmailLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="bold"
-                android:text="@string/email"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/postTitle"
-                app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/postEmail"
+                android:id="@+id/postDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:textSize="@dimen/_12ssp"
-                android:text="@string/email"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:visibility="gone"
+                android:textColor="@android:color/black"
+                android:visibility="visible"
                 app:layout_constraintTop_toBottomOf="@+id/postTitle"
-                app:layout_constraintStart_toEndOf="@+id/postEmailLabel" />
+                app:layout_constraintStart_toStartOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
